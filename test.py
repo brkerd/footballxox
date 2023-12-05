@@ -21,9 +21,8 @@ def gridClubs(Id):
 
 def finalGrid(LeagueId):
     query = 'SELECT DISTINCT country_of_citizenship FROM players WHERE last_season = 2023 AND current_club_name LIKE ?'
-        
     clubs = gridClubs(LeagueId)
-    print(clubs)
+    
     nationsForClubs = []
     for club in clubs:
         params = (club,)
@@ -35,11 +34,11 @@ def finalGrid(LeagueId):
 
     #nations = [nation for nation in nationsForClubs[0] if nation in nationsForClubs[1] and nation in nationsForClubs[2]]
     if(len(nations)<3):
-        nations = finalGrid(LeagueId)
+        nations, clubs = finalGrid(LeagueId)
 
+    
+    return random.sample(list(nations),3), clubs
 
-    return list(nations), clubs
-
-gridFinalNations, gridFinalClubs = finalGrid("GB1")
+gridAllNations, gridFinalClubs = finalGrid("GB1")
 print(gridFinalClubs)
-print(gridFinalNations)
+print(gridAllNations)

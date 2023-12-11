@@ -39,6 +39,29 @@ def finalGrid(LeagueId):
     
     return random.sample(list(nations),3), clubs
 
+def playerGuess(playerName, gridNat, gridClub):
+    query = "SELECT DISTINCT name FROM players WHERE name LIKE ? AND country_of_citizenship LIKE ? AND current_club_name LIKE ?"
+    params = (playerName, gridNat, gridClub)
+    askDB = cur.execute(query, params)
+    checkGuess = askDB.fetchone()
+
+    if(checkGuess is None):
+        return False
+    elif(checkGuess[0] == playerName):
+        return True
+    else:
+        return False
+
+
 gridAllNations, gridFinalClubs = finalGrid("GB1")
+
 print(gridFinalClubs)
 print(gridAllNations)
+guess = input("Guess player name: ")
+guessResult = playerGuess(guess,gridAllNations[0],gridFinalClubs[0])
+
+if(guessResult == True):
+    print("Correct guess!")
+
+if(guessResult == False):
+    print("Wrong Guess!")

@@ -1,7 +1,7 @@
 import random
 import sqlite3
 
-con = sqlite3.connect("tikitakapi.db")
+con = sqlite3.connect("tikitakapi.db", check_same_thread=False)
 cur = con.cursor()
 
 def getClubsFromCompetitionId(Id):
@@ -32,7 +32,6 @@ def finalGrid(LeagueId):
         
     nations = set(nationsForClubs[0]).intersection(*nationsForClubs[1:])
 
-    #nations = [nation for nation in nationsForClubs[0] if nation in nationsForClubs[1] and nation in nationsForClubs[2]]
     if(len(nations)<3):
         nations, clubs = finalGrid(LeagueId)
 
@@ -51,17 +50,3 @@ def playerGuess(playerName, gridNat, gridClub):
         return True
     else:
         return False
-
-
-gridAllNations, gridFinalClubs = finalGrid("GB1")
-
-print(gridFinalClubs)
-print(gridAllNations)
-guess = input("Guess player name: ")
-guessResult = playerGuess(guess,gridAllNations[0],gridFinalClubs[0])
-
-if(guessResult is True):
-    print("Correct guess!")
-
-if(guessResult is False):
-    print("Wrong Guess!")

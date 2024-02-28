@@ -1,5 +1,6 @@
 import random
 import sqlite3
+import pycountry
 
 con = sqlite3.connect("tikitakapi.db", check_same_thread=False)
 cur = con.cursor()
@@ -50,3 +51,24 @@ def playerGuess(playerName, gridNat, gridClub):
         return True
     else:
         return False
+
+
+def getISOCode(name):
+    try:
+        # Try looking up as a subdivision
+        code = pycountry.subdivisions.lookup(name).code
+        return code
+    except LookupError:
+        try:
+            # If it's not a subdivision, try looking up as a country
+            if(name == "Turkey"):
+                name = "Türkiye"
+            code = pycountry.countries.lookup(name).alpha_2
+            return code
+        except LookupError:
+            try:
+                code = pycountry.countries.search_fuzzy(name)
+                return code
+            except LookupError:
+                print(f"Could not find flag for {name}")
+                return None  

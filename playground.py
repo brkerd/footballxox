@@ -1,5 +1,6 @@
 import random
 import sqlite3
+import pycountry
 
 con = sqlite3.connect("tikitakapi.db")
 cur = con.cursor()
@@ -51,17 +52,71 @@ def playerGuess(playerName, gridNat, gridClub):
         return True
     else:
         return False
+    
+def toISOCode(unofficialName):
+    pass
 
 
-gridAllNations, gridFinalClubs = finalGrid("GB1")
 
-print(gridFinalClubs)
-print(gridAllNations)
-guess = input("Guess player name: ")
-guessResult = playerGuess(guess,gridAllNations[0],gridFinalClubs[0])
+# def get_flag_url(name):
+#     try:
+#         # Try looking up as a subdivision
+#         code = pycountry.subdivisions.lookup(name).code.lower()
+#         return f"https://github.com/hampusborgos/country-flags/blob/main/svg/{code}.svg"
+#     except LookupError:
+#         try:
+#             # If it's not a subdivision, try looking up as a country
+#             country = pycountry.countries.lookup(name)
+#             return country.code
+#         except LookupError:
+#             print(f"Could not find flag for {name}")
+#             return None
 
-if(guessResult is True):
-    print("Correct guess!")
 
-if(guessResult is False):
-    print("Wrong Guess!")
+# def getCode(name):
+#     try:
+#         # Try looking up as a subdivision
+#         code = pycountry.subdivisions.lookup(name).code
+#         return code
+#     except LookupError:
+#         try:
+#             # If it's not a subdivision, try looking up as a country
+#             if(name == "Turkey"):
+#                 name = "Türkiye"
+#             code = pycountry.countries.lookup(name).alpha_2
+#             return code
+#         except LookupError:
+#             try:
+#                 code = pycountry.countries.search_fuzzy(name)
+#                 return code
+#             except LookupError:
+#                 print(f"Could not find flag for {name}")
+#                 return None
+
+
+# code = pycountry.countries.search_fuzzy("Turkey")
+# print(code)
+
+print(pycountry.subdivisions.lookup("Wales").code)
+
+# code1 = getCode("England")
+# code2 = getCode("Turkey")
+# print(f"{code1}   {code2}")
+
+# eng = pycountry.countries.lookup("Germany").alpha_2
+# print(eng)
+
+
+
+# gridAllNations, gridFinalClubs = finalGrid("GB1")
+
+# print(gridFinalClubs)
+# print(gridAllNations)
+# guess = input("Guess player name: ")
+# guessResult = playerGuess(guess,gridAllNations[0],gridFinalClubs[0])
+
+# if(guessResult is True):
+#     print("Correct guess!")
+
+# if(guessResult is False):
+#     print("Wrong Guess!")

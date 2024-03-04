@@ -55,8 +55,12 @@ def playerGuess(playerName, gridNat, gridClub):
 
 def getISOCode(name):
     try:
+        
         # Try looking up as a subdivision
         code = pycountry.subdivisions.lookup(name).code
+        if(name=="England"):
+            return "GB"
+        
         return code
     except LookupError:
         try:

@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from functions import finalGrid, playerGuess, getISOCode
+from models import PlayerInfo
 
 router = APIRouter()
 
@@ -8,9 +9,9 @@ def final_grid(league_id: str):
     nations, clubs = finalGrid(league_id)
     return{"nations":nations, "clubs":clubs}
 
-@router.get("/guess_player/{player_name}/{nationality}/{club}")
-def guess_player(player_name: str, nationality: str, club: str):
-    answer = playerGuess(player_name,nationality,club)
+@router.post("/guess_player/")
+def guess_player(player_info:PlayerInfo):
+    answer = playerGuess(player_info.player_name,player_info.nationality,player_info.club)
     return answer
 
 

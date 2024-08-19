@@ -25,10 +25,12 @@ async def connect(websocket: WebSocket, room_id: str) -> bool:
     return False
 
 def disconnect(websocket: WebSocket, room_id: str):
+    global saved_message
     if room_id in active_connections:
         active_connections[room_id].remove(websocket)
         if len(active_connections[room_id]) == 0:
             del active_connections[room_id]
+            saved_message=None
 
 async def broadcast(message: str, room_id: str):
     if room_id in active_connections:
@@ -50,7 +52,8 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
     else:
             await broadcast(saved_message,room_id)
             await websocket.send_text("O")
-            await broadcast("ready",room_id)
+            if(len(active_connections[room_id])==2):
+               await broadcast("ready",room_id)
     
 
 
@@ -61,6 +64,6 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
             
     except WebSocketDisconnect:
         disconnect(websocket, room_id)
-        #await broadcast(f"A player has left the room {room_id}.", room_id)
+        await broadcast(f"A player has left the room {room_id}.", room_id)
 
 
